@@ -35,3 +35,8 @@ func GetRedirect(path string, result *string) error {
 	})
 }
 
+func DelRedirect(path string) error {
+	return DB.Update(func(txn *badger.Txn) error {
+		return txn.Delete([]byte(path))
+	})
+}

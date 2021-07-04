@@ -56,6 +56,21 @@ func AddRedirect(ctx *gin.Context) {
 	}
 	if strings.HasPrefix(to.Dest, "http") {
 		service.AddRedirect(path, to.Dest)
-		ctx.String(http.StatusOK, path)
+		ctx.JSON(http.StatusOK, gin.H{
+			"path": path,
+			"dest": to.Dest,
+		})
 	}
+}
+
+func DelRedirect(ctx *gin.Context) {
+	token, _ := ctx.Params.Get("token")
+	path, _ := ctx.Params.Get("path")
+	if token != service.Config.AdminToken {
+		ctx.String(http.StatusForbidden, "No token")
+		return
+	}
+
+	service.DelRedirect(path)
+	ctx.String(http.StatusOK, "deleted %v", path)
 }

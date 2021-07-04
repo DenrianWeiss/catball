@@ -14,6 +14,7 @@ func main() {
 	r.GET("/:target", handler.Redirect)
 	r.GET("/show/:target", handler.ShowRedirect)
 	r.POST("/add/:token/:path", handler.AddRedirect)
+	r.POST("/del/:token/:path", handler.DelRedirect)
 
 	r.Run()
 }
