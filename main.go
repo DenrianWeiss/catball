@@ -16,5 +16,8 @@ func main() {
 	r.POST("/add/:token/:path", handler.AddRedirect)
 	r.POST("/del/:token/:path", handler.DelRedirect)
 
+	r.POST("/docs/add/:token/:path", handler.AddDocument)
+	r.GET("/docs/:path", handler.GetDocument)
+
 	r.Run()
 }
