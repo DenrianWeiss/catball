@@ -8,6 +8,5 @@ var (
 
 type GlobalConfig struct {
 	DatabaseFile string `json:"database_file"`
-	AdminToken string `json:"admin_token"`
+	AdminToken   string `json:"admin_token"`
 }
-

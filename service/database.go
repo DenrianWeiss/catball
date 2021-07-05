@@ -62,7 +62,7 @@ func AddDocument(path string, article *model.Article) error {
 			if err != nil {
 				return err
 			}
-			return txn.Set([]byte(docsPrefix + path), j)
+			return txn.Set([]byte(docsPrefix+path), j)
 		}
 		return err
 	})
