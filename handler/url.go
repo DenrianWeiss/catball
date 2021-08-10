@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"github.com/DenrianWeiss/catball/model"
 	"github.com/DenrianWeiss/catball/service"
 	"github.com/gin-gonic/gin"
@@ -58,11 +59,16 @@ func AddRedirect(ctx *gin.Context) {
 		return
 	}
 	if strings.HasPrefix(to.Dest, "http") {
-		service.AddRedirect(path, to.Dest)
-		ctx.JSON(http.StatusOK, gin.H{
-			"path": path,
-			"dest": to.Dest,
-		})
+		err := service.AddRedirect(path, to.Dest)
+		if err != nil {
+			ctx.String(http.StatusBadRequest, "path exists.")
+			return
+		} else {
+			ctx.JSON(http.StatusOK, gin.H{
+				"path": path,
+				"dest": to.Dest,
+			})
+		}
 	}
 }
 
@@ -74,8 +80,13 @@ func DelRedirect(ctx *gin.Context) {
 		return
 	}
 
-	service.DelRedirect(path)
-	ctx.String(http.StatusOK, "deleted %v", path)
+	err := service.DelRedirect(path)
+	if err != nil {
+		ctx.String(http.StatusForbidden, fmt.Sprintf("%s", err))
+		return
+	} else {
+		ctx.String(http.StatusOK, "deleted %v", path)
+	}
 }
 
 func AddDocument(ctx *gin.Context) {
