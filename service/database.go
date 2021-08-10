@@ -50,7 +50,12 @@ func GetRedirect(path string, result *string) error {
 
 func DelRedirect(path string) error {
 	return DB.Update(func(txn *badger.Txn) error {
-		return txn.Delete([]byte(path))
+		_, err := txn.Get([]byte(path))
+		if err == badger.ErrKeyNotFound {
+			return errors.New("no path to delete")
+		} else {
+			return txn.Delete([]byte(path))
+		}
 	})
 }
 
