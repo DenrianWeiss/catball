@@ -18,6 +18,7 @@ func main() {
 
 	r.POST("/docs/add/:token/:path", handler.AddDocument)
 	r.GET("/docs/:path", handler.GetDocument)
+	r.GET("/api/docs/:path", handler.RenderDocument)
 
 	r.Run()
 }

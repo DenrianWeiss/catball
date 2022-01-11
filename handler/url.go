@@ -126,3 +126,23 @@ func GetDocument(ctx *gin.Context) {
 	})
 
 }
+
+func RenderDocument(ctx *gin.Context) {
+	path, _ := ctx.Params.Get("path")
+	article := &model.Article{}
+	err := service.GetDocument(path, article)
+	if err != nil {
+		ctx.JSON(http.StatusNotFound, gin.H{
+			"status": "Not found"
+		})
+		return
+	}
+	md := markdown.ToHTML([]byte(article.Content), nil, nil)
+
+	ctx.JSON(http.StatusOK, gin.H{
+		"status": "OK",
+		"title": article.Title,
+		"author": article.Author,
+		"body":  string(md),
+	})
+}
