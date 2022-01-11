@@ -133,7 +133,7 @@ func RenderDocument(ctx *gin.Context) {
 	err := service.GetDocument(path, article)
 	if err != nil {
 		ctx.JSON(http.StatusNotFound, gin.H{
-			"status": "Not found"
+			"status": "Not found",
 		})
 		return
 	}
